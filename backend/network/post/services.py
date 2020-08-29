@@ -9,7 +9,7 @@ def post_create(user: User, title: str, content: str) -> Post:
 
 
 def post_get_list() -> list:
-    return Post.objects.all()
+    return Post.objects.order_by('-created')
 
 
 def post_get(id: str) -> Post:

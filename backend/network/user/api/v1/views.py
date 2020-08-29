@@ -6,6 +6,33 @@ from rest_framework.views import APIView
 from user import services
 
 
+class CreateUserView(APIView):
+    class InputSerializer(serializers.Serializer):
+        username = serializers.CharField(required=True)
+        password = serializers.CharField(required=True)
+        email = serializers.EmailField(required=True)
+
+    class OutputSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = User
+            fields = ('id', 'username', 'email')
+
+    def post(self, request):
+        input_serializer = self.InputSerializer(data=request.data)
+        input_serializer.is_valid(raise_exception=True)
+
+        user = services.user_create(**input_serializer.validated_data)
+        token = services.user_get_token(user=user)
+
+        return Response(
+            {
+                'token': token,
+                'user': self.OutputSerializer(instance=user).data,
+            },
+            status=status.HTTP_201_CREATED,
+        )
+
+
 class LoginView(APIView):
     class InputSerializer(serializers.Serializer):
         username = serializers.CharField(required=True)
@@ -15,11 +42,11 @@ class LoginView(APIView):
         class Meta:
             model = User
             fields = (
-                "id",
-                "username",
-                "first_name",
-                "last_name",
-                "email",
+                'id',
+                'username',
+                'first_name',
+                'last_name',
+                'email',
             )
 
     def post(self, request):
@@ -31,8 +58,8 @@ class LoginView(APIView):
 
         return Response(
             {
-                "token": token,
-                "user": self.OutputSerializer(instance=user).data,
+                'token': token,
+                'user': self.OutputSerializer(instance=user).data,
             },
             status=status.HTTP_200_OK,
         )

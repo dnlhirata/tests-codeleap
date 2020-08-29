@@ -18,6 +18,8 @@ env = environ.Env(
 )
 environ.Env.read_env()
 
+CSRF_COOKIE_NAME = "XSRF-TOKEN"
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
@@ -44,12 +46,14 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
     'user',
     'post',
 
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -135,3 +139,5 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 10,
 }
+
+CORS_ALLOW_ALL_ORIGINS = True
