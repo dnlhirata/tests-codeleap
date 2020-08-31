@@ -1,7 +1,14 @@
 This is a coding test for Backend Developer job made to CodeLeap.
 
 * Used techologies: Django, Django REST Framework, PostgreSQL, React, TypeScript, Styled Components, ESLint, Prittier, Context API.
-* Unittest with pytest for backend and jest for frontend will be added later
+
+### TODOs
+* unittest (pytest and jest will be used)
+* frontend exceptions handling
+* fields validation
+* alerts on frontend (toast messages for better user experience)
+* signout page/button
+* authenticate routes (now user is pushed to pages without any validation)
 
 # Usage instructions
 1. Clone project to a directory of your preference
@@ -10,8 +17,8 @@ This is a coding test for Backend Developer job made to CodeLeap.
 
 ### Setting up database (only work with PostgreSQL)
 #### With Docker
-1. Run `(sudo) docker-compose up db`
-2. Create a **.env** file on backend project directory **/network/network**
+1. Run `(sudo) docker-compose up db` on the same directory level as **docker-compse.yml** file
+2. Create a **.env** file on directory **/network/network** (same directory as **settings.py**)
 3. Fill with:
 ```sql
 POSTGRESQL_DB=network
@@ -31,10 +38,10 @@ POSTGRESQL_PASS=postgres
 * There is a **.env.example** with all keys if you get lost somehow
 
 ### Setting up and running API
-1. Run `pip install requirements.txt` 
+1. Run `pip install -r requirements.txt` (do not forget to activate your virtual environment if needed)
 2. On the same directory level that manage.py run `python manage.py runserver`
 
-### API Methods - endpoint (there will be a swagger later)
+### API Methods - endpoint (there will be a swagger later) - slashes on the final of POST, PUT, PATCH, DELETE endpoints are needed
 #### User
 1. **POST - /user/api/v1/create/** - Create a user
 ```
@@ -64,7 +71,7 @@ header: {
 *Authorization: Token **token from logged user** (eg: Authorization: Token 6d26e00d06019d175776c8a662160c0282e1c906)
 }
 ```
-4. **PUT - /post/api/v1/post/{post_id}** - Update post (authentication and ownership needed)
+4. **PUT - /post/api/v1/post/{post_id}/** - Update post (authentication and ownership needed)
 ```
 body: {
 *title: string
@@ -74,7 +81,7 @@ header: {
 *Authorization: Token **token from logged user** (eg: Authorization: Token 6d26e00d06019d175776c8a662160c0282e1c906)
 }
 ```
-5. **PATCH - /post/api/v1/post/{post_id}** - Partial update post (authentication and ownership needed)
+5. **PATCH - /post/api/v1/post/{post_id}/** - Partial update post (authentication and ownership needed)
 ```
 body: {
 title: string
@@ -84,7 +91,7 @@ header: {
 *Authorization: Token **token from logged user** (eg: Authorization: Token 6d26e00d06019d175776c8a662160c0282e1c906)
 }
 ```
-6. **DELETE - /post/api/v1/post/{post_id}** - Delete post (authentication and ownership needed)
+6. **DELETE - /post/api/v1/post/{post_id}/** - Delete post (authentication and ownership needed)
 ```
 header: {
 *Authorization: Token **token from logged user** (eg: Authorization: Token 6d26e00d06019d175776c8a662160c0282e1c906)
