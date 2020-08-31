@@ -1,6 +1,7 @@
 This is a coding test for Backend Developer job made to CodeLeap.
 
 * Used techologies: Django, Django REST Framework, PostgreSQL, React, TypeScript, Styled Components, ESLint, Prittier, Context API.
+* Unittest with pytest for backend and jest for frontend will be added later
 
 # Usage instructions
 1. Clone project to a directory of your preference
