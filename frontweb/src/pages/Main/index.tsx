@@ -6,25 +6,28 @@ import Post from '../../components/Post';
 
 import api from '../../services/api';
 
-import { useAuth } from '../../hooks/auth';
+import { useAuth, User } from '../../hooks/auth';
 
 import { Container, Content, Form } from './styles';
+import TextAreaInput from '../../components/TextAreaInput';
 
 interface Post {
   id: number;
   title: string;
   content: string;
   created: string;
-  user: {
-    username: string;
-    email: string;
-  };
+  user: User;
+}
+
+interface PostFormData {
+  title: string;
+  content: string;
 }
 
 const Main: React.FC = () => {
   const formRef = useRef(null);
 
-  const { token } = useAuth();
+  const { user, token } = useAuth();
 
   const [posts, setPosts] = useState<Post[]>([]);
 
@@ -51,6 +54,27 @@ const Main: React.FC = () => {
     [posts, token],
   );
 
+  const handleCreate = useCallback(
+    async (data: PostFormData) => {
+      try {
+        const response = await api.post('/post/api/v1/post/', data, {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        });
+
+        const post = response.data as Post;
+
+        const newPosts = [post].concat(posts);
+
+        setPosts(newPosts);
+      } catch (err) {
+        // Tratamento de erro
+      }
+    },
+    [posts, token],
+  );
+
   return (
     <Container>
       <Content>
@@ -59,18 +83,14 @@ const Main: React.FC = () => {
         </h1>
 
         <div>
-          <Form ref={formRef} onSubmit={() => {}}>
+          <Form ref={formRef} onSubmit={handleCreate}>
             <h4>What's on your mind?</h4>
-            <TextInput
-              name="username"
-              label="Username"
-              placeholder="Hello World"
-            />
-            <TextInput
-              name="password"
-              label="Password"
-              type="password"
+            <TextInput name="title" label="Titulo" placeholder="Hello World" />
+            <TextAreaInput
+              name="content"
+              label="Mensagem"
               placeholder="Content here"
+              rows={6}
             />
             <div className="create-button">
               <Button>Create</Button>

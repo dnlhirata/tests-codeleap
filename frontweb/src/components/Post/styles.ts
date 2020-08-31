@@ -63,4 +63,9 @@ export const Container = styled.div`
       margin-left: 10px;
     }
   }
+
+  .save-btn {
+    display: flex;
+    justify-content: flex-end;
+  }
 `;
