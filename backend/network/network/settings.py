@@ -14,7 +14,8 @@ import environ
 from pathlib import Path
 
 env = environ.Env(
-    DEBUG=(bool, False)
+    DEBUG=(bool, False),
+    SECRET_KEY=(str, '123456')
 )
 environ.Env.read_env()
 
